@@ -1,0 +1,26 @@
+{
+  "name": "easy-admin-web-authorization",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite --host",
+    "build": "vue-tsc --noEmit && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "ant-design-vue": "^3.2.9",
+    "axios": "^0.27.2",
+    "pinia": "^2.0.14",
+    "unplugin-vue-components": "^0.21.0",
+    "vue": "^3.2.25",
+    "vue-router": "4"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.0",
+    "@vitejs/plugin-vue": "^2.3.3",
+    "@vitejs/plugin-vue-jsx": "^1.3.10",
+    "typescript": "^4.5.4",
+    "vite": "^2.9.9",
+    "vue-tsc": "^0.34.7"
+  }
+}
