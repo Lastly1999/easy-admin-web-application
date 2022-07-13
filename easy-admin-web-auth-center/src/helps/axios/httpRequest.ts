@@ -16,6 +16,7 @@ const httpRequest = new HttpInterceptor({
     interceptor: {
         requestInterceptors: (config) => {
             const storeState = store.getState()
+            console.log("🚀 ~ file: httpRequest.ts ~ line 19 ~ storeState", storeState)
             const accessToken = storeState?.accessToken;
             const refreshToken = storeState?.refreshToken;
             (config.headers as IHttpHeadersOptions)["authorization"] = accessToken;

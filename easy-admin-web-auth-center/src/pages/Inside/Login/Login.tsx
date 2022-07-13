@@ -6,6 +6,7 @@ import { loginAction } from "@/services/Inside/auth/authService";
 import { useDispatch } from "react-redux";
 import { setInsideUserInfo, setToken } from "@/redux/festures/auth/authSlice";
 import { AppDispatch } from "@/redux";
+import { getAsyncAuthMenus } from "@/redux/festures/auth/authAsyncThunk";
 
 /**
  * 内部系统登录页
@@ -26,7 +27,7 @@ const Login: React.FC = () => {
         dispatch(setInsideUserInfo({ ...res.data.userInfo }))
         console.log(res.data);
         dispatch(setToken({ accessToken: res.data.token.accessToken, refreshToken: res.data.token.refreshToken }))
-        // dispatch(getAsyncAuthMenus())
+        dispatch(getAsyncAuthMenus() as any)
         navigate("/admin")
         message.success("登录成功！")
     }
