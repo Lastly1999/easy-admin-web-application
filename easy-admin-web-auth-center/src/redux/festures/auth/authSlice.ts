@@ -1,34 +1,36 @@
-import {createSlice} from "@reduxjs/toolkit"
-import {getAuthMenus} from "@/services/Inside/auth/authService";
-import {getAsyncAuthMenus} from "@/redux/festures/auth/authAsyncThunk";
+import { createSlice } from "@reduxjs/toolkit"
+import { getAuthMenus } from "@/services/Inside/auth/authService";
+import { getAsyncAuthMenus } from "@/redux/festures/auth/authAsyncThunk";
+
+
+export interface AuthState {
+    userInfo?: UserInfo
+    menus: []
+    accessToken?: string
+    refreshToken?: string
+}
 
 export type UserInfo = {
     userName: string
     roleId: number
 }
 
-export interface AuthState {
-    userInfo?: UserInfo
-    menus: []
-    accessToken?: string
-    refreshToken?:string
-}
 
 const initialState: AuthState = {
     userInfo: undefined,
     menus: [],
-    accessToken:undefined,
-    refreshToken:undefined
+    accessToken: undefined,
+    refreshToken: undefined
 }
 
 export const authSlice = createSlice({
     name: "authSpace",
     initialState,
     reducers: {
-        setInsideUserInfo: (state, {payload}: { payload: UserInfo }) => {
-            state.userInfo = {...payload}
+        setInsideUserInfo: (state, { payload }: { payload: UserInfo }) => {
+            state.userInfo = { ...payload }
         },
-        setToken: (state, {payload}: { payload: {accessToken:string,refreshToken:string}}) => {
+        setToken: (state, { payload }: { payload: { accessToken: string, refreshToken: string } }) => {
             state.accessToken = payload.accessToken
             state.refreshToken = payload.refreshToken
         },
@@ -40,7 +42,8 @@ export const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAsyncAuthMenus.fulfilled, (state, action) => {
-            state.menus = action.payload.data.menu
+            console.log(action)
+            state.menus = action.payload.data
         })
         builder.addCase(getAsyncAuthMenus.rejected, (state, err) => {
             console.error(err)
@@ -51,6 +54,6 @@ export const authSlice = createSlice({
     }
 })
 
-export const {setInsideUserInfo, fetchAuthMenus,setToken} = authSlice.actions
+export const { setInsideUserInfo, fetchAuthMenus, setToken } = authSlice.actions
 
 export default authSlice.reducer

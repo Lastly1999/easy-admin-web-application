@@ -1,20 +1,23 @@
-import {BrowserRouter as Router, Route, Routes} from "react-router-dom"
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 // page components
 import Login from "@/pages/Inside/Login/Login"
-import AdminRouter from "@/router/routerMap/AdminRouter/AdminRouter";
+import AppLayout from "@/layout/AppLayout";
 
 /**
  * 系统路由配置
  * @author lastly1999
  * @description 系统路由的配置
  */
-export default function BasicRouter() {
+const BasicRouter = () => {
+
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<Login/>}></Route>
-                <Route path="/admin/*" element={<AdminRouter/>}></Route>
+                <Route path="/login" element={<Login />}></Route>
+                <Route path="/admin/*" element={<AppLayout />}></Route>
             </Routes>
         </Router>
     )
 }
+
+export default BasicRouter

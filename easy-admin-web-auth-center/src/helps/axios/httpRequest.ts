@@ -1,7 +1,10 @@
+import type { IJsonResult } from "@/types/global"
 import HttpInterceptor from "./interceptor"
-import {openNotification} from "@/helps/antd/antd"
-import {IJsonResult} from "@/types/global"
+import { openNotification } from "@/helps/antd/antd"
 import store from "@/redux";
+import * as h from "history"
+
+const history = h.createBrowserHistory()
 
 type IHttpHeadersOptions = {
     [index: string]: any
@@ -16,9 +19,8 @@ const httpRequest = new HttpInterceptor({
     interceptor: {
         requestInterceptors: (config) => {
             const storeState = store.getState()
-            console.log("🚀 ~ file: httpRequest.ts ~ line 19 ~ storeState", storeState)
-            const accessToken = storeState?.accessToken;
-            const refreshToken = storeState?.refreshToken;
+            const accessToken = storeState.authState.accessToken;
+            const refreshToken = storeState.authState.refreshToken;
             (config.headers as IHttpHeadersOptions)["authorization"] = accessToken;
             (config.headers as IHttpHeadersOptions)["RefreshToken"] = refreshToken;
             return config
@@ -33,9 +35,10 @@ const httpRequest = new HttpInterceptor({
         },
         responseInterceptorsCatch: eof => {
             if (eof.response.status === 401) {
-                // jwtInvalidHandler(eof.response.status)
+                jwtInvalidHandler(eof.response.status)
+            } else {
+                handelHttpError(eof.response.data.message)
             }
-            handelHttpError(eof.response.data.message)
             throw new Error(eof.response.data.msg);
         }
     }
@@ -43,16 +46,18 @@ const httpRequest = new HttpInterceptor({
 
 const jwtInvalidHandler = (code: number) => {
     if (code === 401) {
-        sessionStorage.removeItem("persist:root")
+        localStorage.removeItem("persist:root")
+        history.push("/login")
+        openNotification({ type: "error", message: "登录授权已过期", description: "请重新登录!" })
     }
 }
 
 const handelApiError = <T>(data: IJsonResult<T>) => {
-    return openNotification({type: "error", message: "温馨提示", description: data.msg})
+    return openNotification({ type: "error", message: "温馨提示", description: data.msg })
 }
 
 const handelHttpError = (description: string) => {
-    return openNotification({type: "error", message: "出错啦!", description})
+    return openNotification({ type: "error", message: "出错啦!", description })
 }
 
 export default httpRequest

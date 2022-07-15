@@ -1,11 +1,17 @@
-import {configureStore} from "@reduxjs/toolkit"
+import { combineReducers, configureStore, Reducer } from "@reduxjs/toolkit"
 // redux-persist
-import {persistReducer, persistStore} from "redux-persist"
+import { persistReducer, persistStore } from "redux-persist"
 import storage from 'redux-persist/lib/storage'
 // slices
-import authReducers from "@/redux/festures/auth/authSlice";
+import authReducers, { AuthState } from "@/redux/festures/auth/authSlice";
+import configReducers, { ConfigState } from "@/redux/festures/config/configSlice"
 import thunkMiddleware from "redux-thunk";
 
+
+export interface RootState {
+    authState: AuthState,
+    configState: ConfigState
+}
 
 const persistConfig = {
     key: "root",
@@ -13,7 +19,12 @@ const persistConfig = {
     devTools: process.env.NODE_ENV !== 'production',
 }
 
-const persistedReducer = persistReducer(persistConfig, authReducers)
+const rootReducers = combineReducers({
+    authState: authReducers,
+    configState: configReducers
+})
+
+const persistedReducer = persistReducer(persistConfig, rootReducers)
 
 const store = configureStore({
     // reducer收集
