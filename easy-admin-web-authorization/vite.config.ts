@@ -23,7 +23,8 @@ export default ({ mode }) => {
         base: "/",
         server: {
             cors: true,
-            port: Number(envConfig.VITE_APP_PORT)
+            port: Number(envConfig.VITE_APP_PORT),
+            origin:"http://localhost:3001/"
         },
         resolve: {
             alias: {

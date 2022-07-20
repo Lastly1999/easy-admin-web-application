@@ -24,6 +24,7 @@ function render(props: any) {
 renderWithQiankun({
 	mount(props) {
 		console.log(`%c microApp load success. microApp props... 正在使用 ->`, "color:#6cdd8e", props)
+		window.microAppProps = props
 		render(props);
 	},
 	bootstrap() {

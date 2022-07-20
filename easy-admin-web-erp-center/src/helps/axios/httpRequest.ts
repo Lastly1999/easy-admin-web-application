@@ -2,9 +2,8 @@ import type { IJsonResult } from "@/types/global"
 import HttpInterceptor from "./interceptor"
 import { openNotification } from "@/helps/antd/antd"
 import store from "@/redux";
-import * as h from "history"
+import {history} from "@/router/browserHistory"
 
-const history = h.createBrowserHistory()
 
 type IHttpHeadersOptions = {
     [index: string]: any
