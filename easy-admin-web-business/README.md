@@ -2,4 +2,4 @@
 
 ## Recommended IDE Setup
 
-## easy-admin 微应用 授权中心
+## easy-admin 微应用 业务中心
