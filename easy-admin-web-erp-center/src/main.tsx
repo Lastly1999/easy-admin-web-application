@@ -4,6 +4,7 @@ import AppRouter from "@/router/BasicRouter"
 import { PersistGate } from 'redux-persist/integration/react'
 import store, { persistor } from '@/redux';
 import { Provider } from "react-redux"
+import "./setupMicroApp"
 
 ReactDOM.createRoot(document.getElementById('root')!).render(
     <React.StrictMode>

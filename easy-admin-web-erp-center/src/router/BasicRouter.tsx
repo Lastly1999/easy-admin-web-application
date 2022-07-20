@@ -13,7 +13,9 @@ const BasicRouter = () => {
     return (
         <Router>
             <Routes>
-                <Route path="/login" element={<Login />}></Route>
+                <Route path="/authorization" element={<div id="authorization"></div>}></Route>
+                <Route path="/business" element={<div id="business"></div>}></Route>
+                {/* <Route path="/login" element={<Login />}></Route> */}
                 <Route path="/admin/*" element={<AppLayout />}></Route>
             </Routes>
         </Router>

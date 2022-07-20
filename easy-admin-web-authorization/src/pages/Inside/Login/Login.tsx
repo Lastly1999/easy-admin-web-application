@@ -1,4 +1,4 @@
-import {defineComponent} from "vue"
+import { defineComponent } from "vue"
 
 /**
  * 系统授权内部登录页
@@ -12,6 +12,7 @@ const Login = defineComponent({
 
         return () => (
             <div>
+                testsssssssssss
             </div>
         )
     }

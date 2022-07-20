@@ -33,7 +33,7 @@ const AppLayout: React.FC<Props> = (props) => {
 	const authState = useSelector<RootState, AuthState>((state) => state.authState)
 
 	useLayoutEffect(() => {
-		dispatch(getAsyncAuthMenus() as any)
+		// dispatch(getAsyncAuthMenus() as any)
 	}, [])
 
 	return (
