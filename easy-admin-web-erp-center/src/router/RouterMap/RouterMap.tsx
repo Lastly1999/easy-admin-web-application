@@ -1,10 +1,10 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
-import RoleManagement from '@/pages/Inside/RoleManagement/RoleManagement'
-import SystemSettings from '@/pages/Inside/SystemSettings/SystemSettings'
-import UserManagement from '@/pages/Inside/UserManagement/UserManagement'
-import Workbench from '@/pages/Inside/Workbench/Workbench'
+const RoleManagement = React.lazy(() => import('@/pages/Inside/RoleManagement/RoleManagement'))
+const SystemSettings = React.lazy(() => import('@/pages/Inside/SystemSettings/SystemSettings'))
+const UserManagement = React.lazy(() => import('@/pages/Inside/UserManagement/UserManagement'))
+const Workbench = React.lazy(() => import('@/pages/Inside/Workbench/Workbench'))
 
 type Props = {}
 

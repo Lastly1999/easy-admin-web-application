@@ -1,6 +1,6 @@
 import httpRequest from "@/helps/axios/httpRequest"
 
-enum authApi  {
+enum authApi {
     LOGIN_API = "/auth/login",
     GET_AUTH_MENU_API = "/auth/menus",
 }

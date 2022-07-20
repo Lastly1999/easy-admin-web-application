@@ -2,7 +2,7 @@ import React, { useState } from "react"
 import { Button, Checkbox, Form, Input, message } from "antd"
 import "./login.less"
 import { useNavigate } from "react-router-dom";
-import { loginAction } from "@/services/Inside/auth/authService";
+import { loginAction } from "@/services/Inside/auth/auth";
 import { useDispatch } from "react-redux";
 import { setInsideUserInfo, setToken } from "@/redux/festures/auth/authSlice";
 import { AppDispatch } from "@/redux";

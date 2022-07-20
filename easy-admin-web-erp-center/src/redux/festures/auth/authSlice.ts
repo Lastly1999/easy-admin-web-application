@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit"
-import { getAuthMenus } from "@/services/Inside/auth/authService";
+import { getAuthMenus } from "@/services/Inside/auth/auth";
 import { getAsyncAuthMenus } from "@/redux/festures/auth/authAsyncThunk";
 
 

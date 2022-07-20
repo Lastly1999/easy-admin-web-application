@@ -1,5 +1,5 @@
-import {createAsyncThunk} from "@reduxjs/toolkit";
-import {getAuthMenus} from "@/services/Inside/auth/authService";
+import { createAsyncThunk } from "@reduxjs/toolkit";
+import { getAuthMenus } from "@/services/Inside/auth/auth";
 
 /**
  * @desc 异步获取系统菜单 (redux-thunk)
@@ -7,6 +7,5 @@ import {getAuthMenus} from "@/services/Inside/auth/authService";
  * @date 0:23
  */
 export const getAsyncAuthMenus = createAsyncThunk("auth/getAuthMenus", async () => {
-    const ret = await getAuthMenus()
-    return ret
+    return await getAuthMenus()
 })
