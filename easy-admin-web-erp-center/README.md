@@ -1,4 +1,4 @@
-# Vue 3 + TypeScript + Vite
+# React + TypeScript + Vite
 
 ## Recommended IDE Setup
 
