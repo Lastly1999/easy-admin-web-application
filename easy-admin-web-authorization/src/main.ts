@@ -3,6 +3,7 @@ import App from './App'
 // setup plugins
 import setupPinia from "@/plugins/pinia"
 import setupVueRouter from "@/plugins/router";
+import setupAntd from "@/plugins/antd";
 import { renderWithQiankun, qiankunWindow, QiankunLifeCycle } from 'vite-plugin-qiankun/dist/helper';
 
 let VueApp: AppInstance | null = null
@@ -12,6 +13,7 @@ function render(props: any) {
 	VueApp = createApp(App)
 	setupVueRouter(VueApp)
 	setupPinia(VueApp)
+	setupAntd(VueApp)
 	VueApp.mount(
 		container
 			? container.querySelector('#app')
@@ -21,11 +23,10 @@ function render(props: any) {
 
 renderWithQiankun({
 	mount(props) {
-		console.log('mount');
+		console.log(`%c microApp load success. microApp props... 正在使用 ->`, "color:#6cdd8e", props)
 		render(props);
 	},
 	bootstrap() {
-		console.log('bootstrap');
 	},
 	unmount(props: any) {
 		console.log('unmount');
