@@ -46,7 +46,7 @@ const httpRequest = new HttpInterceptor({
 const jwtInvalidHandler = (code: number) => {
     if (code === 401) {
         localStorage.removeItem("persist:root")
-        history.push("/login")
+        history.push("/authorization")
         openNotification({ type: "error", message: "登录授权已过期", description: "请重新登录!" })
     }
 }

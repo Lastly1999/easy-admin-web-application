@@ -1,5 +1,3 @@
 # Vue 3 + TypeScript + Vite
 
-## Recommended IDE Setup
-
-## easy-admin 微应用 授权中心
+## easy-admin 微应用 授权中心 后期将开发为单点登录授权中心

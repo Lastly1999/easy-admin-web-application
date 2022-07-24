@@ -15,11 +15,6 @@ registerMicroApps([
 		activeRule: "/authorization",
 		props:{
 			microAppRouter:history,
-			microAppEmit:{
-				login:() => {
-					store.dispatch(setInsideUserInfo({ roleId:1,userName:"test" }))
-				}
-			}
 		}
 	},
 	{
@@ -30,8 +25,12 @@ registerMicroApps([
 	}
 ])
 
+const state = {
+
+}
+
 // 初始化主应用的全局state
-const actions:MicroAppStateActions = initGlobalState(store.getState());
+const actions:MicroAppStateActions = initGlobalState(state);
 
 actions.onGlobalStateChange((state, prev) => {
 	// state: 变更后的状态; prev 变更前的状态

@@ -1,10 +1,10 @@
 import { defineComponent, ref } from "vue"
 import {Button, Form, Input, Checkbox, InputPassword} from "ant-design-vue"
-// @ts-ignore
-import { UserOutlined,WechatOutlined,GithubOutlined,LockOutlined} from '@ant-design/icons-vue'
+import { UserOutlined,WechatOutlined,GithubOutlined } from '@ant-design/icons-vue'
 import LoginButtonGroup from "@/pages/Inside/Login/components/LoginButtonGroup/LoginButtonGroup";
 import type {LoginButtonGroupOpt} from "@/pages/Inside/Login/components/LoginButtonGroup/LoginButtonGroup";
 import "./Login.less"
+import QiankunMicroAppsActions from "@/helps/qiankun/actions";
 
 /**
  * 系统授权内部登录页
@@ -19,9 +19,7 @@ const Login = defineComponent({
         })
 
         const loginAction = () => {
-            // todo
-            window.microAppProps.microAppRouter.push("/admin")
-            window.microAppProps.microAppEmit.login()
+            QiankunMicroAppsActions.actions.microAppRouter.push("/admin")
         }
 
         /**
