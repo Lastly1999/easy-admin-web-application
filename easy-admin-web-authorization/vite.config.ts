@@ -24,7 +24,14 @@ export default ({ mode }) => {
         server: {
             cors: true,
             port: Number(envConfig.VITE_APP_PORT),
-            origin:"http://localhost:3001/"
+            origin: "http://localhost:3001/",
+            proxy: {
+                '/api': {
+                    target: 'http:127.0.0.1:5000/',
+                    changeOrigin: true,
+                    rewrite: (path) => path.replace(/^\/api/, '')
+                }
+            }
         },
         resolve: {
             alias: {

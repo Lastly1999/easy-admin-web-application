@@ -1,6 +1,7 @@
 import { ref } from "vue"
 import QiankunMicroAppsActions from "@/micros/actions";
 import { ValidateErrorEntity } from "ant-design-vue/lib/form/interface";
+import { loginAction } from "@/services/auth/auth";
 
 export interface ILoginForm {
 	userName: string
@@ -14,7 +15,8 @@ const useLogin = () => {
 		passWord: ''
 	})
 
-	const login = (values: ILoginForm) => {
+	const login = async (values: ILoginForm) => {
+		const result = await loginAction(values)
 		QiankunMicroAppsActions.actions.setGlobalState({
 			accessToken: '@asdssssssssss',
 			refreshToken: 'asdssssssssssasdssssssssssasdssssssssss'
