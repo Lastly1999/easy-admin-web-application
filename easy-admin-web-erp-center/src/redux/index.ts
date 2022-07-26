@@ -5,12 +5,14 @@ import storage from 'redux-persist/lib/storage'
 // slices
 import authReducers, { AuthState } from "@/redux/festures/auth/authSlice";
 import configReducers, { ConfigState } from "@/redux/festures/config/configSlice"
+import commonReducers, { CommonState } from "@/redux/festures/common/commonSlice"
 import thunkMiddleware from "redux-thunk";
 
 
 export interface RootState {
     authState: AuthState,
-    configState: ConfigState
+    configState: ConfigState,
+    commonState: CommonState
 }
 
 const persistConfig = {
@@ -21,7 +23,8 @@ const persistConfig = {
 
 const rootReducers = combineReducers({
     authState: authReducers,
-    configState: configReducers
+    configState: configReducers,
+    commonState: commonReducers
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)

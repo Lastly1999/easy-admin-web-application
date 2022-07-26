@@ -31,8 +31,9 @@ export const authSlice = createSlice({
             state.userInfo = { ...payload }
         },
         setToken: (state, { payload }: { payload: { accessToken: string, refreshToken: string } }) => {
-            state.accessToken = payload.accessToken
-            state.refreshToken = payload.refreshToken
+            // state.accessToken = payload.accessToken
+            // state.refreshToken = payload.refreshToken
+            state = { ...state, ...payload }
         },
         fetchAuthMenus: (state) => {
             getAuthMenus().then((res) => {

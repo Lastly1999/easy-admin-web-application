@@ -1,4 +1,4 @@
-lockfileVersion: 5.3
+lockfileVersion: 5.4
 
 specifiers:
   '@ant-design/icons-vue': ^6.1.0
@@ -21,7 +21,7 @@ specifiers:
 dependencies:
   ant-design-vue: 3.2.9_vue@3.2.37
   axios: 0.27.2
-  pinia: 2.0.14_typescript@4.7.4+vue@3.2.37
+  pinia: 2.0.14_j6bzmzd4ujpabbp5objtwxyjp4
   vue: 3.2.37
   vue-router: 4.0.16_vue@3.2.37
 
@@ -35,7 +35,7 @@ devDependencies:
   typescript: 4.7.4
   unplugin-vue-components: 0.21.0_vite@3.0.2+vue@3.2.37
   vite: 3.0.2_less@4.1.3
-  vite-plugin-qiankun: 1.0.15_typescript@4.7.4+vite@3.0.2
+  vite-plugin-qiankun: 1.0.15_v3wns4mmlyy7olg3wbdj3skgpq
   vue-tsc: 0.34.17_typescript@4.7.4
 
 packages:
@@ -1493,7 +1493,7 @@ packages:
     dev: true
     optional: true
 
-  /pinia/2.0.14_typescript@4.7.4+vue@3.2.37:
+  /pinia/2.0.14_j6bzmzd4ujpabbp5objtwxyjp4:
     resolution: {integrity: sha512-0nPuZR4TetT/WcLN+feMSjWJku3SQU7dBbXC6uw+R6FLQJCsg+/0pzXyD82T1FmAYe0lsx+jnEDQ1BLgkRKlxA==}
     peerDependencies:
       '@vue/composition-api': ^1.4.0
@@ -1717,7 +1717,7 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /vite-plugin-qiankun/1.0.15_typescript@4.7.4+vite@3.0.2:
+  /vite-plugin-qiankun/1.0.15_v3wns4mmlyy7olg3wbdj3skgpq:
     resolution: {integrity: sha512-0QB0Wr8Eu/LGcuJAfuNXDb7BAFDszo3GCxq4bzgXdSFAlK425u1/UGMxaDEBVA1uPFrLsZPzig83Ufdfl6J45A==}
     peerDependencies:
       typescript: '>=4'

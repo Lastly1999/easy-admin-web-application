@@ -5,7 +5,7 @@ import setupPinia from "@/plugins/pinia"
 import setupVueRouter from "@/plugins/router";
 import setupAntd from "@/plugins/antd";
 import { renderWithQiankun, qiankunWindow, QiankunLifeCycle } from 'vite-plugin-qiankun/dist/helper';
-import QiankunMicroAppsActions from "@/helps/qiankun/actions"
+import QiankunMicroAppsActions from "@/micros/actions"
 
 let VueApp: AppInstance | null = null
 
@@ -25,7 +25,7 @@ function render(props: any) {
 renderWithQiankun({
 	mount(props) {
 		console.log(`%c microApp load success. microApp props... 正在使用 ->`, "color:#6cdd8e", props)
-		QiankunMicroAppsActions.actions = props
+		QiankunMicroAppsActions.setActions(props)
 		render(props);
 	},
 	bootstrap() {
