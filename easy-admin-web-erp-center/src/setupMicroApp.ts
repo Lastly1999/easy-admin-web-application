@@ -1,4 +1,4 @@
-import { registerMicroApps, start } from "qiankun"
+import { registerMicroApps, start, setDefaultMountApp } from "qiankun"
 import { history } from "@/router/browserHistory"
 import action from "@/micros/action"
 

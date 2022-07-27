@@ -1,20 +1,12 @@
-import React, { useState, useLayoutEffect } from 'react';
-import { Route, Routes } from "react-router-dom";
+import React, { useState } from 'react';
 // types
 import type { MenuProps } from 'antd';
 import { Breadcrumb, Layout, Menu } from "antd"
 // style
 import "./AppLayout.less"
-// apis
-import { getAsyncAuthMenus } from "@/redux/festures/auth/authAsyncThunk";
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@/redux';
-import { AuthState } from '@/redux/festures/auth/authSlice';
 import RouterMap from '@/router/RouterMap/RouterMap';
 // components
 import AppMenu from './components/AppMenu/AppMenu';
-import action from '@/micros/action';
-
 
 const { Header, Content, Sider } = Layout;
 
@@ -28,14 +20,6 @@ type Props = OwnProps;
 const AppLayout: React.FC<Props> = (props) => {
 
 	const [collapsed, setCollapsed] = useState(false);
-
-	const dispatch = useDispatch()
-
-	const authState = useSelector<RootState, AuthState>((state) => state.authState)
-
-	useLayoutEffect(() => {
-		// dispatch(getAsyncAuthMenus() as any)
-	}, [])
 
 	return (
 		<Layout style={{ minHeight: '100vh' }}>

@@ -1,6 +1,5 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom"
 // page components
-import Login from "@/pages/Inside/Login/Login"
 import AppLayout from "@/layout/AppLayout";
 
 /**
@@ -13,9 +12,11 @@ const BasicRouter = () => {
     return (
         <Router>
             <Routes>
+                {/* micros app 授权中心 */}
                 <Route path="/authorization" element={<div id="authorization"></div>}></Route>
+                {/* micros app 业务中心 */}
                 <Route path="/business" element={<div id="business"></div>}></Route>
-                {/* <Route path="/login" element={<Login />}></Route> */}
+                {/* micros main app 主应用路由器 */}
                 <Route path="/admin/*" element={<AppLayout />}></Route>
             </Routes>
         </Router>

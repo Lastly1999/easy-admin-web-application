@@ -3,7 +3,8 @@ import store from "@/redux"
 import { setToken } from "@/redux/festures/auth/authSlice";
 
 const initialState = {
-	token: "1"
+	accessToken: "",
+	refreshToken: ''
 }
 
 const action = initGlobalState(initialState)

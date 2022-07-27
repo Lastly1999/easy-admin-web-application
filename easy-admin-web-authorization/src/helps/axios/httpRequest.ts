@@ -1,5 +1,6 @@
 import type { IJsonResult } from "@/types/global"
 import HttpInterceptor from "./interceptor"
+import { notification } from "ant-design-vue"
 // import { openNotification } from "@/helps/antd/antd"
 // import stores from "@/redux";
 // import {history} from "@/router/browserHistory"
@@ -13,16 +14,18 @@ type IHttpHeadersOptions = {
  * http request create for HttpInterceptor class instance
  */
 const httpRequest = new HttpInterceptor({
-    baseURL: import.meta.env.VITE_APP_API_BASE_URL,
+    baseURL: import.meta.env.VITE_APP_BASE_URL,
     timeout: Number(import.meta.env.VITE_APP_TIME_OUT),
     interceptor: {
         requestInterceptors: (config) => {
+            console.log(config)
             // const storeState = stores.getState()
             // const accessToken = storeState.authState.accessToken;
             // const refreshToken = storeState.authState.refreshToken;
             // (config.headers as IHttpHeadersOptions)["authorization"] = accessToken;
             // (config.headers as IHttpHeadersOptions)["RefreshToken"] = refreshToken;
             // return config
+            return config
         },
         requestInterceptorsCatch: eof => eof,
         responseInterceptors: response => {
@@ -33,6 +36,7 @@ const httpRequest = new HttpInterceptor({
             return response
         },
         responseInterceptorsCatch: eof => {
+            console.log(eof);
             if (eof.response.status === 401) {
                 jwtInvalidHandler(eof.response.status)
             } else {
@@ -56,7 +60,7 @@ const handelApiError = <T>(data: IJsonResult<T>) => {
 }
 
 const handelHttpError = (description: string) => {
-    // return openNotification({ type: "error", message: "出错啦!", description })
+    return notification.error({ message: "温馨提示", description })
 }
 
 export default httpRequest

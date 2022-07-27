@@ -1,19 +1,11 @@
-import { combineReducers, configureStore, Reducer } from "@reduxjs/toolkit"
+import { Action, combineReducers, configureStore, ThunkAction } from "@reduxjs/toolkit"
 // redux-persist
 import { persistReducer, persistStore } from "redux-persist"
 import storage from 'redux-persist/lib/storage'
 // slices
-import authReducers, { AuthState } from "@/redux/festures/auth/authSlice";
-import configReducers, { ConfigState } from "@/redux/festures/config/configSlice"
-import commonReducers, { CommonState } from "@/redux/festures/common/commonSlice"
-import thunkMiddleware from "redux-thunk";
-
-
-export interface RootState {
-    authState: AuthState,
-    configState: ConfigState,
-    commonState: CommonState
-}
+import authReducers from "@/redux/festures/auth/authSlice";
+import configReducers from "@/redux/festures/config/configSlice"
+import commonReducers from "@/redux/festures/common/commonSlice"
 
 const persistConfig = {
     key: "root",
@@ -22,9 +14,9 @@ const persistConfig = {
 }
 
 const rootReducers = combineReducers({
-    authState: authReducers,
-    configState: configReducers,
-    commonState: commonReducers
+    auth: authReducers,
+    config: configReducers,
+    common: commonReducers
 })
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)
@@ -32,10 +24,12 @@ const persistedReducer = persistReducer(persistConfig, rootReducers)
 const store = configureStore({
     // reducer收集
     reducer: persistedReducer,
-    middleware: [thunkMiddleware]
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware({ serializableCheck: false })
 })
 
 export type AppDispatch = typeof store.dispatch;
+export type RootState = ReturnType<typeof store.getState>
+export type AppThunk<ReturnType = void> = ThunkAction<ReturnType, RootState, unknown, Action<string>>
 export const persistor = persistStore(store)
 export default store
 

@@ -18,9 +18,13 @@ export default ({ mode, command }) => {
         ],
         server: {
             port: parseInt(envConfig.VITE_APP_PORT),
+            headers: {
+                'Access-Control-Allow-Origin': '*',
+            },
             proxy: {
                 [envConfig.VITE_APP_API_BASE_URL]: {
                     target: envConfig.VITE_APP_API_URL, // 接口基地址
+                    changeOrigin: true,
                     rewrite: path => {
                         return path.replace(/^\/api/, '');
                     }

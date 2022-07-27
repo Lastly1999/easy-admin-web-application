@@ -1,8 +1,8 @@
 import httpRequest from "@/helps/axios/httpRequest";
-import {ILoginInfo} from "@/services/model/auth/auth";
+import { ILoginInfo, SignInResult } from "@/services/model/auth/auth";
 
 enum authApi {
-    LOGIN_API = "/auth/login",
+    LOGIN_API = "auth/login",
 }
 
 /**
@@ -11,5 +11,5 @@ enum authApi {
  * @date 17:29
  */
 export function loginAction(loginInfo: ILoginInfo) {
-    return httpRequest.post(authApi.LOGIN_API, loginInfo)
+    return httpRequest.post<ILoginInfo, SignInResult>(authApi.LOGIN_API, loginInfo)
 }

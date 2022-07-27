@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 
 const RoleManagement = React.lazy(() => import('@/pages/Inside/RoleManagement/RoleManagement'))
@@ -9,6 +9,7 @@ const Workbench = React.lazy(() => import('@/pages/Inside/Workbench/Workbench'))
 type Props = {}
 
 const RouterMap: React.FC = (props: Props) => {
+	
 	return (
 		<Routes>
 			<Route path="/workbench" element={<Workbench />}></Route>

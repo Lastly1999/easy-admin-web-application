@@ -1,6 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
 import { getAuthMenus } from "@/services/Inside/auth/auth";
-import { getAsyncAuthMenus } from "@/redux/festures/auth/authAsyncThunk";
 
 
 export interface AuthState {
@@ -16,6 +15,13 @@ export type UserInfo = {
 }
 
 
+/**
+ * @desc 异步获取系统菜单 (redux-thunk)
+ * @author lastly1999
+ * @date 0:23
+ */
+export const getAuthMenusThunk = createAsyncThunk("authSpace/getAuthMenusThunk", async (_, thunkApi) => await getAuthMenus())
+
 const initialState: AuthState = {
     userInfo: undefined,
     menus: [],
@@ -23,7 +29,7 @@ const initialState: AuthState = {
     refreshToken: undefined
 }
 
-export const authSlice = createSlice({
+const authSlice = createSlice({
     name: "authSpace",
     initialState,
     reducers: {
@@ -31,30 +37,16 @@ export const authSlice = createSlice({
             state.userInfo = { ...payload }
         },
         setToken: (state, { payload }: { payload: { accessToken: string, refreshToken: string } }) => {
-            // state.accessToken = payload.accessToken
-            // state.refreshToken = payload.refreshToken
-            state = { ...state, ...payload }
+            state.accessToken = payload.accessToken
+            state.refreshToken = payload.refreshToken
         },
-        fetchAuthMenus: (state) => {
-            getAuthMenus().then((res) => {
-                state.menus = res.data.menus
-            })
-        }
     },
     extraReducers: (builder) => {
-        builder.addCase(getAsyncAuthMenus.fulfilled, (state, action) => {
-            console.log(action)
+        builder.addCase(getAuthMenusThunk.fulfilled, (state, action) => {
             state.menus = action.payload.data
-        })
-        builder.addCase(getAsyncAuthMenus.rejected, (state, err) => {
-            console.error(err)
-        })
-        builder.addCase(getAsyncAuthMenus.pending, (state) => {
-            console.warn("pending", state)
         })
     }
 })
 
-export const { setInsideUserInfo, fetchAuthMenus, setToken } = authSlice.actions
-
+export const { setInsideUserInfo, setToken } = authSlice.actions
 export default authSlice.reducer

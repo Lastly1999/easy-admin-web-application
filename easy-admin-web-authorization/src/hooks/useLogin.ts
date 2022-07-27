@@ -2,6 +2,7 @@ import { ref } from "vue"
 import QiankunMicroAppsActions from "@/micros/actions";
 import { ValidateErrorEntity } from "ant-design-vue/lib/form/interface";
 import { loginAction } from "@/services/auth/auth";
+import { SignInResult } from "@/services/model/auth/auth";
 
 export interface ILoginForm {
 	userName: string
@@ -16,10 +17,10 @@ const useLogin = () => {
 	})
 
 	const login = async (values: ILoginForm) => {
-		const result = await loginAction(values)
+		const { data: { token: { accessToken, refreshToken } } } = await loginAction(values)
 		QiankunMicroAppsActions.actions.setGlobalState({
-			accessToken: '@asdssssssssss',
-			refreshToken: 'asdssssssssssasdssssssssssasdssssssssss'
+			accessToken,
+			refreshToken
 		})
 		QiankunMicroAppsActions.actions.microAppRouter.push("/admin")
 	}
