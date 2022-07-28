@@ -1,6 +1,6 @@
 import { initGlobalState } from "qiankun"
-import store from "@/redux"
-import { setToken } from "@/redux/festures/auth/authSlice";
+import store from "@/app/store"
+import { setToken } from "@/festures/auth/authSlice";
 
 const initialState = {
 	accessToken: "",

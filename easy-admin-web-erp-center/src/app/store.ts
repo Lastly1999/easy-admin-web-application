@@ -3,9 +3,9 @@ import { Action, combineReducers, configureStore, ThunkAction } from "@reduxjs/t
 import { persistReducer, persistStore } from "redux-persist"
 import storage from 'redux-persist/lib/storage'
 // slices
-import authReducers from "@/redux/festures/auth/authSlice";
-import configReducers from "@/redux/festures/config/configSlice"
-import commonReducers from "@/redux/festures/common/commonSlice"
+import authReducers from "@/festures/auth/authSlice";
+import configReducers from "@/festures/config/configSlice"
+import commonReducers from "@/festures/common/commonSlice"
 
 const persistConfig = {
     key: "root",

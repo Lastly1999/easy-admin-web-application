@@ -1,11 +1,19 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import SubMenu from 'antd/lib/menu/SubMenu'
 import * as Icon from "@ant-design/icons"
 import { Menu } from 'antd'
+import { useDispatch } from 'react-redux'
+import { getAuthMenusThunk } from "@/festures/auth/authSlice"
 
 export type IAppMenuProps = {}
 
 const AppMenu: React.FC<IAppMenuProps> = (props) => {
+
+	const dispatch = useDispatch()
+
+	useEffect(() => {
+		dispatch(getAuthMenusThunk() as any)
+	}, [])
 
 	const generateMenu = (menu: any[]) => {
 		return menu.map((item: any) => {

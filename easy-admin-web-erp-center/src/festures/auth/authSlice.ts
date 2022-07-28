@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, createAction } from "@reduxjs/toolkit"
+import { createSlice, createAsyncThunk } from "@reduxjs/toolkit"
 import { getAuthMenus } from "@/services/Inside/auth/auth";
 
 
@@ -20,7 +20,10 @@ export type UserInfo = {
  * @author lastly1999
  * @date 0:23
  */
-export const getAuthMenusThunk = createAsyncThunk("authSpace/getAuthMenusThunk", async (_, thunkApi) => await getAuthMenus())
+export const getAuthMenusThunk = createAsyncThunk("authSpace/getAuthMenusThunk", async (_, thunkApi) => {
+    const result = await getAuthMenus()
+    return result.data
+})
 
 const initialState: AuthState = {
     userInfo: undefined,
@@ -43,7 +46,7 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAuthMenusThunk.fulfilled, (state, action) => {
-            state.menus = action.payload.data
+            state.menus = []
         })
     }
 })

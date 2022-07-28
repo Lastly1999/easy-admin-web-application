@@ -1,8 +1,7 @@
 import type { IJsonResult } from "@/types/global"
 import HttpInterceptor from "./interceptor"
 import { openNotification } from "@/helps/antd/antd"
-import store from "@/redux";
-import {history} from "@/router/browserHistory"
+import { history } from "@/router/browserHistory"
 
 
 type IHttpHeadersOptions = {
@@ -17,11 +16,14 @@ const httpRequest = new HttpInterceptor({
     timeout: Number(import.meta.env.VITE_APP_TIME_OUT),
     interceptor: {
         requestInterceptors: (config) => {
-            const storeState = store.getState()
-            const accessToken = storeState.authState.accessToken;
-            const refreshToken = storeState.authState.refreshToken;
-            (config.headers as IHttpHeadersOptions)["authorization"] = accessToken;
-            (config.headers as IHttpHeadersOptions)["RefreshToken"] = refreshToken;
+            const storeData = localStorage.getItem("persist:root") ? JSON.parse(localStorage.getItem("persist:root") as string) : null
+            if (storeData) {
+                const appAuthStore = JSON.parse(storeData.auth)
+                const accessToken = appAuthStore.accessToken;
+                const refreshToken = appAuthStore.refreshToken;
+                (config.headers as IHttpHeadersOptions)["authorization"] = accessToken;
+                (config.headers as IHttpHeadersOptions)["refreshToken"] = refreshToken;
+            }
             return config
         },
         requestInterceptorsCatch: eof => eof,
@@ -33,8 +35,8 @@ const httpRequest = new HttpInterceptor({
             return response
         },
         responseInterceptorsCatch: eof => {
-            if (eof.response.status === 401) {
-                jwtInvalidHandler(eof.response.status)
+            if ([401, 500].includes(eof.response.status)) {
+                jwtInvalidHandler()
             } else {
                 handelHttpError(eof.response.data.message)
             }
@@ -43,12 +45,10 @@ const httpRequest = new HttpInterceptor({
     }
 })
 
-const jwtInvalidHandler = (code: number) => {
-    if (code === 401) {
-        localStorage.removeItem("persist:root")
-        history.push("/authorization")
-        openNotification({ type: "error", message: "登录授权已过期", description: "请重新登录!" })
-    }
+const jwtInvalidHandler = () => {
+    localStorage.removeItem("persist:root")
+    history.push("/authorization")
+    openNotification({ type: "error", message: "登录授权已过期", description: "请重新登录!" })
 }
 
 const handelApiError = <T>(data: IJsonResult<T>) => {
