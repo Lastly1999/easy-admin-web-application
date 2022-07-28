@@ -2,7 +2,6 @@ import { ref } from "vue"
 import QiankunMicroAppsActions from "@/micros/actions";
 import { ValidateErrorEntity } from "ant-design-vue/lib/form/interface";
 import { loginAction } from "@/services/auth/auth";
-import { SignInResult } from "@/services/model/auth/auth";
 
 export interface ILoginForm {
 	userName: string
@@ -11,13 +10,18 @@ export interface ILoginForm {
 
 const useLogin = () => {
 
+	const signCache = localStorage.getItem("SIGN-IN-CACHE") ? JSON.parse(localStorage.getItem("SIGN-IN-CACHE") as string) : null;
+
 	const loginForm = ref<ILoginForm>({
-		userName: '',
-		passWord: ''
+		userName: signCache ? signCache.userName : "",
+		passWord: signCache ? signCache.passWord : ""
 	})
 
 	const login = async (values: ILoginForm) => {
 		const { data: { token: { accessToken, refreshToken } } } = await loginAction(values)
+		localStorage.setItem("SIGN-IN-CACHE", JSON.stringify({
+			...loginForm.value
+		}))
 		QiankunMicroAppsActions.actions.setGlobalState({
 			accessToken,
 			refreshToken

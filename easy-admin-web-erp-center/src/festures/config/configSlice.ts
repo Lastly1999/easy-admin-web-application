@@ -7,7 +7,7 @@ export type ConfigState = {
 }
 
 const initialState: ConfigState = {
-	theme: 'dark' // default app theme dark
+	theme: 'light' // default app theme dark
 }
 
 

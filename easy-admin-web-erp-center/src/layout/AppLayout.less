@@ -1,7 +1,15 @@
 .logo {
 	height: 32px;
 	margin: 16px;
+	line-height: 70px;
 	background: rgba(255, 255, 255, 0.3);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+
+	img {
+		height: 100%;
+	}
 }
 
 .ant-layout-content {
@@ -16,10 +24,40 @@
 }
 
 .site-layout-header {
-	background: #fff;
+	background-color: #3051d3;
 }
 
 .site-layout-content-background {
 	background: #fff;
 	flex: 1
+}
+
+.site-layout-sider {
+	box-shadow: 0 2px 4px rgb(0 0 0 / 8%);
+}
+
+// page-title-box
+.page-title-box {
+	width: 100%;
+	padding: 24px 15px 65px 15px;
+	background-color: #3051d3;
+	background-image: url("../assets/imgs/inside/bg-pattern.png");
+	background-size: cover;
+
+	.page-title-box-name {
+		color: #fff;
+		line-height: 30px;
+		font-size: 20px;
+	}
+
+	.page-title-box-remark {
+		color: #505d69;
+		font-family: Nunito, sans-serif;
+		font-size: .91rem;
+		font-weight: 500;
+		line-height: 1.5;
+		text-align: left;
+		color: rgba(255, 255, 255, .6);
+	}
+
 }

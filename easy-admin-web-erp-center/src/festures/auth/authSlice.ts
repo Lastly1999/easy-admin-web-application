@@ -46,7 +46,7 @@ const authSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(getAuthMenusThunk.fulfilled, (state, action) => {
-            state.menus = []
+            state.menus = action.payload
         })
     }
 })
