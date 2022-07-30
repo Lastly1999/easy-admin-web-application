@@ -61,10 +61,17 @@ const AppMenu: React.FC<IAppMenuProps> = (props) => {
 		})
 	}
 
+	const staticMenu = [
+		{
+			name: "工作台",
+			router: "/admin/workBench",
+		}
+	]
+
 
 	return (
 		<Menu theme={themeState} defaultSelectedKeys={[location.pathname]} mode="inline" onClick={menuClick}>
-			{generateMenu(menusState)}
+			{generateMenu([...staticMenu, ...menusState])}
 		</Menu>
 	)
 }

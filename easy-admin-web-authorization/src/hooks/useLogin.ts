@@ -26,7 +26,7 @@ const useLogin = () => {
 			accessToken,
 			refreshToken
 		})
-		QiankunMicroAppsActions.actions.microAppRouter.push("/admin")
+		QiankunMicroAppsActions.actions.microAppRouter.push("/admin/workBench")
 	}
 
 	const finishFailed = (errorInfo: ValidateErrorEntity<ILoginForm>) => {

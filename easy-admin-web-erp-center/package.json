@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@ant-design/charts": "^1.4.2",
     "@icon-park/react": "^1.4.2",
     "@reduxjs/toolkit": "^1.8.3",
     "antd": "^4.21.5",

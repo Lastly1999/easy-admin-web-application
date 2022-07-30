@@ -1,6 +1,7 @@
 import React from 'react'
 import { Route, Routes } from 'react-router-dom'
 
+import WorkBench from '@/pages/Inside/WorkBench/WorkBench'
 import UserPermssion from "@/pages/Inside/Permssion/UserPermssion/UserPermssion"
 import AuthMenuPermssion from "@/pages/Inside/Permssion/AuthMenuPermssion/AuthMenuPermssion"
 import RolePermssion from "@/pages/Inside/Permssion/RolePermssion/RolePermssion"
@@ -11,6 +12,7 @@ const RouterMap: React.FC = (props: Props) => {
 
 	return (
 		<Routes>
+			<Route path="/workBench" element={<WorkBench />}></Route>
 			<Route path="/permssion/user" element={<UserPermssion />}></Route>
 			<Route path="/permssion/menu" element={<AuthMenuPermssion />}></Route>
 			<Route path="/permssion/role" element={<RolePermssion />}></Route>

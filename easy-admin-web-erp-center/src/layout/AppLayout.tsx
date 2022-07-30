@@ -51,12 +51,14 @@ const AppLayout: React.FC<Props> = (props) => {
 							</Col>
 						</Row>
 					</div>
-					<div className="site-layout-content-background" style={{ padding: 24, minHeight: 360 }}>
+					<div className="site-layout-content-background" style={{ minHeight: 360 }}>
+						<div style={{ width: '100%', padding: 24, height: '100%'}}>
 						<RouterMap></RouterMap>
 					</div>
-				</Content>
-			</Layout>
+				</div>
+			</Content>
 		</Layout>
+		</Layout >
 	);
 };
 
