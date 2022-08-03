@@ -1,97 +1,104 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import { Button, Space, Table, Tag } from 'antd'
-import { ColumnsType } from 'antd/lib/table';
+import { ColumnsType } from 'antd/lib/table'
+import EasyButtonGroup, {ButtonGroupItemProps} from "@/components/EasyButtonGroup/EasyButtonGroup"
 import "./UserPermssion.less"
+import services from "@/services/services"
+import UserInfoSetupModal from "@/pages/Inside/Permssion/UserPermssion/components/UserInfoSetupModal/UserInfoSetupModal";
 
 type Props = {}
 
+interface DataType {
+	createdAt: string
+	departmentId: number
+	email: string
+	headImg: string
+	id: number
+	name: string
+	nickName: string
+	password: string
+	phone: string
+	remark: string | null
+	status: number
+	updatedAt: string
+	username: string
+}
+
 const UserPermssion: React.FC<Props> = (props) => {
-	interface DataType {
-		key: string;
-		name: string;
-		age: number;
-		address: string;
-		tags: string[];
+
+	useEffect(() => {
+		getUsers()
+	}, []);
+
+	const getUsers = async () => {
+		const {data} = await services.getUsers()
+		console.log(data)
+		setData([...data])
 	}
 
 	const columns: ColumnsType<DataType> = [
 		{
-			title: 'Name',
-			dataIndex: 'name',
-			key: 'name',
-			render: (text: string) => <a>{text}</a>,
+			title:"序号",
+			dataIndex:"id",
+			key:"id"
 		},
 		{
-			title: 'Age',
-			dataIndex: 'age',
-			key: 'age',
+			title: '用户名',
+			dataIndex: 'username',
+			key: 'username',
 		},
 		{
-			title: 'Address',
-			dataIndex: 'address',
-			key: 'address',
+			title: '手机号',
+			dataIndex: 'phone',
+			key: 'phone',
 		},
 		{
-			title: 'Tags',
-			key: 'tags',
-			dataIndex: 'tags',
-			render: (_, { tags }) => (
-				<>
-					{tags.map(tag => {
-						let color = tag.length > 5 ? 'geekblue' : 'green';
-						if (tag === 'loser') {
-							color = 'volcano';
-						}
-						return (
-							<Tag color={color} key={tag}>
-								{tag.toUpperCase()}
-							</Tag>
-						);
-					})}
-				</>
-			),
+			title: '邮箱',
+			dataIndex: 'email',
+			key: 'email',
 		},
 		{
-			title: 'Action',
+			title: '操作',
 			key: 'action',
+			align:"center",
 			render: (_, record: any) => (
 				<Space size="middle">
-					<a>Invite {record.name}</a>
-					<a>Delete</a>
+					<a>编辑</a>
 				</Space>
 			),
 		},
 	];
 
-	const data: DataType[] = [
+	const [data, setData] = useState<DataType[]>([]);
+
+	const buttonGroupOpts:ButtonGroupItemProps[] = [
 		{
-			key: '1',
-			name: 'John Brown',
-			age: 32,
-			address: 'New York No. 1 Lake Park',
-			tags: ['nice', 'developer'],
-		},
-		{
-			key: '2',
-			name: 'Jim Green',
-			age: 42,
-			address: 'London No. 1 Lake Park',
-			tags: ['loser'],
-		},
-		{
-			key: '3',
-			name: 'Joe Black',
-			age: 32,
-			address: 'Sidney No. 1 Lake Park',
-			tags: ['cool', 'teacher'],
-		},
-	];
+			type:"primary",
+			text:"创建",
+			key:'create'
+		}
+	]
+
+	const buttonGroupClick = (item:ButtonGroupItemProps) => {
+		if(item.key === "create"){
+			setUserInfoSetupModalTitle("创建系统用户")
+			setUserInfoSetupModalVisible(true)
+		}
+	}
+
+	const [userInfoSetupModalVisible, setUserInfoSetupModalVisible] = useState<boolean>(false);
+
+	const [userInfoSetupModalTitle, setUserInfoSetupModalTitle] = useState<string>();
+
+	const userInfoSetupModalCancel = () => {
+		setUserInfoSetupModalVisible(false)
+	}
+
 	return (
 		<div className='user-permssion-container'>
-			<div>
-				<Button type="primary">创建</Button>
-			</div>
-			<Table columns={columns} dataSource={data} />
+			<EasyButtonGroup opt={buttonGroupOpts} onClick={buttonGroupClick}/>
+			<Table size="middle" bordered columns={columns} dataSource={data} />
+			<UserInfoSetupModal destroyOnClose width={600} title={userInfoSetupModalTitle} visible={userInfoSetupModalVisible} onClose={userInfoSetupModalCancel}/>
 		</div>
 	)
 }
