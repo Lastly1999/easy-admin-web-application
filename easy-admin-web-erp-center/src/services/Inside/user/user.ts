@@ -2,7 +2,6 @@ import httpRequest from "@/helps/axios/httpRequest"
 
 enum userApi {
     GET_USERS = "/user",
-    GET_AUTH_MENU_API = "/user",
 }
 
 /**

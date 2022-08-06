@@ -1,27 +1,27 @@
-import React, {useEffect, useState} from 'react'
-import { Button, Space, Table, Tag } from 'antd'
+import React, { useEffect, useState } from 'react'
+import { Row, Col, Space, Table, Tag } from 'antd'
 import { ColumnsType } from 'antd/lib/table'
-import EasyButtonGroup, {ButtonGroupItemProps} from "@/components/EasyButtonGroup/EasyButtonGroup"
+import EasyButtonGroup, { ButtonGroupItemProps } from "@/components/EasyButtonGroup/EasyButtonGroup"
 import "./UserPermssion.less"
 import services from "@/services/services"
 import UserInfoSetupModal from "@/pages/Inside/Permssion/UserPermssion/components/UserInfoSetupModal/UserInfoSetupModal";
+import EasyTreeDep from "@/components/EasyTreeDep/EasyTreeDep"
 
 type Props = {}
 
 interface DataType {
-	createdAt: string
-	departmentId: number
-	email: string
-	headImg: string
-	id: number
-	name: string
-	nickName: string
-	password: string
-	phone: string
-	remark: string | null
-	status: number
-	updatedAt: string
-	username: string
+	userId: number;
+	departmentId: number;
+	name: string;
+	userName: string;
+	nickName: string;
+	headImg: string;
+	phone: string;
+	remark: string;
+	status: number;
+	createdAt: Date;
+	updatedAt: Date;
+	roles: { roleId: number; roleName: string }[];
 }
 
 const UserPermssion: React.FC<Props> = (props) => {
@@ -31,20 +31,20 @@ const UserPermssion: React.FC<Props> = (props) => {
 	}, []);
 
 	const getUsers = async () => {
-		const {data} = await services.getUsers()
+		const { data } = await services.getUsers()
 		console.log(data)
 		setData([...data])
 	}
 
 	const columns: ColumnsType<DataType> = [
 		{
-			title:"序号",
-			dataIndex:"id",
-			key:"id"
+			title: "序号",
+			dataIndex: "index",
+			render: (text, item, index) => index + 1
 		},
 		{
 			title: '用户名',
-			dataIndex: 'username',
+			dataIndex: 'userName',
 			key: 'username',
 		},
 		{
@@ -58,9 +58,16 @@ const UserPermssion: React.FC<Props> = (props) => {
 			key: 'email',
 		},
 		{
+			title: "角色",
+			dataIndex: "roles",
+			render: (_, item) => <>
+				{item.roles.map((item) => <Tag color="success">{item.roleName}</Tag>)}
+			</>
+		},
+		{
 			title: '操作',
 			key: 'action',
-			align:"center",
+			align: "center",
 			render: (_, record: any) => (
 				<Space size="middle">
 					<a>编辑</a>
@@ -71,16 +78,16 @@ const UserPermssion: React.FC<Props> = (props) => {
 
 	const [data, setData] = useState<DataType[]>([]);
 
-	const buttonGroupOpts:ButtonGroupItemProps[] = [
+	const buttonGroupOpts: ButtonGroupItemProps[] = [
 		{
-			type:"primary",
-			text:"创建",
-			key:'create'
+			type: "primary",
+			text: "创建",
+			key: 'create'
 		}
 	]
 
-	const buttonGroupClick = (item:ButtonGroupItemProps) => {
-		if(item.key === "create"){
+	const buttonGroupClick = (item: ButtonGroupItemProps) => {
+		if (item.key === "create") {
 			setUserInfoSetupModalTitle("创建系统用户")
 			setUserInfoSetupModalVisible(true)
 		}
@@ -94,11 +101,23 @@ const UserPermssion: React.FC<Props> = (props) => {
 		setUserInfoSetupModalVisible(false)
 	}
 
+	const treeSelect = (selectedKeys: any, info: any) => {
+		console.log(selectedKeys)
+		console.log(info)
+	}
+
 	return (
 		<div className='user-permssion-container'>
-			<EasyButtonGroup opt={buttonGroupOpts} onClick={buttonGroupClick}/>
-			<Table size="middle" bordered columns={columns} dataSource={data} />
-			<UserInfoSetupModal destroyOnClose width={600} title={userInfoSetupModalTitle} visible={userInfoSetupModalVisible} onClose={userInfoSetupModalCancel}/>
+			<Row gutter={16}>
+				<Col className="user-permssion-dep-tree" span={5}>
+					<EasyTreeDep onSelect={treeSelect} />
+				</Col>
+				<Col span={19}>
+					<EasyButtonGroup opt={buttonGroupOpts} onClick={buttonGroupClick} />
+					<Table size="middle" bordered columns={columns} dataSource={data} />
+					<UserInfoSetupModal forceRender width={600} title={userInfoSetupModalTitle} visible={userInfoSetupModalVisible} onClose={userInfoSetupModalCancel} />
+				</Col>
+			</Row>
 		</div>
 	)
 }

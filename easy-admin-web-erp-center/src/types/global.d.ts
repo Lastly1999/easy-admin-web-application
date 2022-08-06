@@ -1,9 +1,12 @@
-import {Rule} from "antd/lib/form"
+import { Rule } from "antd/lib/form"
 
 export type IJsonResult<T> = {
-    code: number
-    msg: string
+    statusCode: number
     data: T
+    message: string
+    statusCode: number
+    timestamp: string
+    url: string
 }
 
 export type IFormRules = {

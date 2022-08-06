@@ -1,4 +1,4 @@
-lockfileVersion: 5.4
+lockfileVersion: 5.3
 
 specifiers:
   '@types/react': ^18.0.15
@@ -20,7 +20,7 @@ devDependencies:
   '@vitejs/plugin-react': 2.0.0_vite@3.0.2
   typescript: 4.7.4
   vite: 3.0.2
-  vite-plugin-qiankun: 1.0.15_v3wns4mmlyy7olg3wbdj3skgpq
+  vite-plugin-qiankun: 1.0.15_typescript@4.7.4+vite@3.0.2
 
 packages:
 
@@ -948,7 +948,7 @@ packages:
       picocolors: 1.0.0
     dev: true
 
-  /vite-plugin-qiankun/1.0.15_v3wns4mmlyy7olg3wbdj3skgpq:
+  /vite-plugin-qiankun/1.0.15_typescript@4.7.4+vite@3.0.2:
     resolution: {integrity: sha512-0QB0Wr8Eu/LGcuJAfuNXDb7BAFDszo3GCxq4bzgXdSFAlK425u1/UGMxaDEBVA1uPFrLsZPzig83Ufdfl6J45A==}
     peerDependencies:
       typescript: '>=4'
