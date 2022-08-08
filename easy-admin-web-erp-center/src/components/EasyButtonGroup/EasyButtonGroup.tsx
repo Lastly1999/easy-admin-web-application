@@ -1,40 +1,41 @@
 import React from 'react';
-import {Button, Col, Row} from "antd"
+import { Button, Col, Row } from "antd"
 import "./EasyButtonGroup.less"
-import {ButtonProps} from "antd/lib/button/button"
-import {ColProps} from "antd/lib/grid/col";
-import {RowProps} from "antd/lib/grid/row";
+import { ButtonProps } from "antd/lib/button/button"
+import { ColProps } from "antd/lib/grid/col";
+import { RowProps } from "antd/lib/grid/row";
 
 export type ButtonGroupItemProps = {
-    text:string
+    text: string
     key: string | number | null
-    colProps?:ColProps
+    colProps?: ColProps
 } & ButtonProps
 
 interface OwnProps {
-    layoutConfig?:RowProps
-    opt:ButtonGroupItemProps[]
-    onClick:(item:ButtonGroupItemProps) => void
+    loading?: boolean
+    layoutConfig?: RowProps
+    opt: ButtonGroupItemProps[]
+    onClick: (item: ButtonGroupItemProps) => void
 }
 
 type Props = OwnProps;
 
 const EasyButtonGroup: React.FC<Props> = (props) => {
 
-    const itemClick = (item:ButtonGroupItemProps) => {
-        if(props.onClick) props.onClick(item)
+    const itemClick = (item: ButtonGroupItemProps) => {
+        if (props.onClick) props.onClick(item)
     }
 
     return (
-      <div className="easy-button-group">
-          <Row style={{width:"100%"}} {...props.layoutConfig}>
-              {
-                  props.opt.map((item) => (
-                      <Col {...item.colProps}><Button onClick={() => itemClick(item)} {...item}>{item.text}</Button></Col>
-                  ))
-              }
-          </Row>
-      </div>
+        <div className="easy-button-group">
+            <Row style={{ width: "100%" }} {...props.layoutConfig}>
+                {
+                    props.opt.map((item) => (
+                        <Col {...item.colProps}><Button loading={props.loading} onClick={() => itemClick(item)} {...item}>{item.text}</Button></Col>
+                    ))
+                }
+            </Row>
+        </div>
     )
 };
 

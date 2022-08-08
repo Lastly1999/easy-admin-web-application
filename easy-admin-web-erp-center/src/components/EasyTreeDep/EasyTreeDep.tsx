@@ -12,7 +12,7 @@ interface EasyTreeDepProps {
     onSelect: (selectedKeys: any, info: any) => void;
 }
 
-const EasyTreeDep: React.FC<EasyTreeDepProps> = () => {
+const EasyTreeDep: React.FC<EasyTreeDepProps> = (props) => {
 
 
     const [treeData, setTreeData] = useState<GetDepartmentRequest[]>([]);
@@ -100,7 +100,7 @@ const EasyTreeDep: React.FC<EasyTreeDepProps> = () => {
                     </Tooltip>
                 </span>
             </div>
-            <Tree autoExpandParent titleRender={(item) => (<Dropdown overlay={() => treeMenu(item)} trigger={['contextMenu']}><span>{item.name}</span></Dropdown>)} onExpand={onExpand} treeData={treeData} />
+            <Tree.DirectoryTree blockNode defaultExpandAll autoExpandParent onSelect={props.onSelect} titleRender={(item) => (<Dropdown overlay={() => treeMenu(item)} trigger={['contextMenu']}><span>{item.name}</span></Dropdown>)} onExpand={onExpand} treeData={treeData} />
             <TreeDepModifyModal depId={depId} title={treeDepModifyTitle} visible={treeDepModifyModalVisible} onSuccess={treeDepModifyModalModifySuccess} onCancel={cancelTreeDepModifyModal} />
         </div>
     )

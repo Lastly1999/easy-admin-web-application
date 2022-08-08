@@ -6,6 +6,10 @@ import "./UserPermssion.less"
 import services from "@/services/services"
 import UserInfoSetupModal from "@/pages/Inside/Permssion/UserPermssion/components/UserInfoSetupModal/UserInfoSetupModal";
 import EasyTreeDep from "@/components/EasyTreeDep/EasyTreeDep"
+import { openMessage } from '@/helps/antd/antd'
+import { DirectoryTreeProps } from 'antd/lib/tree/DirectoryTree'
+import { GetDepartmentRequest } from '@/services/Inside/department/model/request/departmentRequest'
+import { DataNode } from 'antd/lib/tree'
 
 type Props = {}
 
@@ -31,9 +35,10 @@ const UserPermssion: React.FC<Props> = (props) => {
 	}, []);
 
 	const getUsers = async () => {
-		const { data } = await services.getUsers()
-		console.log(data)
+		setUserTableLoading(true)
+		const { data } = await services.getUsers({ depId: treeSelectDefKey })
 		setData([...data])
+		setUserTableLoading(false)
 	}
 
 	const columns: ColumnsType<DataType> = [
@@ -58,6 +63,12 @@ const UserPermssion: React.FC<Props> = (props) => {
 			key: 'email',
 		},
 		{
+			title: "所在部门",
+			dataIndex: "departmentName",
+			key: 'departmentName',
+			render: (text) => (<Tag color="success">{text}</Tag>)
+		},
+		{
 			title: "角色",
 			dataIndex: "roles",
 			render: (_, item) => <>
@@ -68,13 +79,15 @@ const UserPermssion: React.FC<Props> = (props) => {
 			title: '操作',
 			key: 'action',
 			align: "center",
-			render: (_, record: any) => (
+			render: (_, record) => (
 				<Space size="middle">
-					<a>编辑</a>
+					<a onClick={() => userRowEdit(record.userId)}>编辑</a>
 				</Space>
 			),
 		},
 	];
+
+	const [userTableLoading, setUserTableLoading] = useState<boolean>(false)
 
 	const [data, setData] = useState<DataType[]>([]);
 
@@ -86,8 +99,17 @@ const UserPermssion: React.FC<Props> = (props) => {
 		}
 	]
 
+	const [rowUserId, setRowUserId] = useState<number>()
+
+	const userRowEdit = (userId: number) => {
+		setRowUserId(userId)
+		setUserInfoSetupModalTitle("编辑系统用户")
+		setUserInfoSetupModalVisible(true)
+	}
+
 	const buttonGroupClick = (item: ButtonGroupItemProps) => {
 		if (item.key === "create") {
+			setRowUserId(undefined)
 			setUserInfoSetupModalTitle("创建系统用户")
 			setUserInfoSetupModalVisible(true)
 		}
@@ -101,9 +123,23 @@ const UserPermssion: React.FC<Props> = (props) => {
 		setUserInfoSetupModalVisible(false)
 	}
 
-	const treeSelect = (selectedKeys: any, info: any) => {
-		console.log(selectedKeys)
-		console.log(info)
+	const [treeSelectDefKey, setTreeSelectDefKey] = useState<number>()
+
+	useEffect(() => {
+		getUsers()
+	}, [treeSelectDefKey])
+
+	const treeSelect: DirectoryTreeProps<GetDepartmentRequest & DataNode>['onSelect'] = (selectedKeys, info) => {
+		setTreeSelectDefKey(info.node.id)
+	}
+
+	const userInfoSetupModalSuccess = () => {
+		openMessage({
+			type: "success",
+			content: "创建成功！"
+		})
+		setUserInfoSetupModalVisible(false)
+		getUsers()
 	}
 
 	return (
@@ -114,8 +150,8 @@ const UserPermssion: React.FC<Props> = (props) => {
 				</Col>
 				<Col span={19}>
 					<EasyButtonGroup opt={buttonGroupOpts} onClick={buttonGroupClick} />
-					<Table size="middle" bordered columns={columns} dataSource={data} />
-					<UserInfoSetupModal forceRender width={600} title={userInfoSetupModalTitle} visible={userInfoSetupModalVisible} onClose={userInfoSetupModalCancel} />
+					<Table size="middle" loading={userTableLoading} bordered columns={columns} dataSource={data} />
+					<UserInfoSetupModal destroyOnClose forceRender width={600} userId={rowUserId} title={userInfoSetupModalTitle} visible={userInfoSetupModalVisible} onClose={userInfoSetupModalCancel} onSuccess={userInfoSetupModalSuccess} />
 				</Col>
 			</Row>
 		</div>
