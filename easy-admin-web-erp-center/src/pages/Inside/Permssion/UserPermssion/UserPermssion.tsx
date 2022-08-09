@@ -10,8 +10,9 @@ import { openMessage } from '@/helps/antd/antd'
 import { DirectoryTreeProps } from 'antd/lib/tree/DirectoryTree'
 import { GetDepartmentRequest } from '@/services/Inside/department/model/request/departmentRequest'
 import { DataNode } from 'antd/lib/tree'
+import EasyContainer from "@/components/EasyContainer/EasyContainer"
 
-type Props = {}
+type UserPermssionProps = {}
 
 interface DataType {
 	userId: number;
@@ -28,7 +29,7 @@ interface DataType {
 	roles: { roleId: number; roleName: string }[];
 }
 
-const UserPermssion: React.FC<Props> = (props) => {
+const UserPermssion: React.FC<UserPermssionProps> = (props) => {
 
 	useEffect(() => {
 		getUsers()
@@ -143,7 +144,7 @@ const UserPermssion: React.FC<Props> = (props) => {
 	}
 
 	return (
-		<div className='user-permssion-container'>
+		<EasyContainer>
 			<Row gutter={16}>
 				<Col className="user-permssion-dep-tree" span={5}>
 					<EasyTreeDep onSelect={treeSelect} />
@@ -154,7 +155,7 @@ const UserPermssion: React.FC<Props> = (props) => {
 					<UserInfoSetupModal destroyOnClose forceRender width={600} userId={rowUserId} title={userInfoSetupModalTitle} visible={userInfoSetupModalVisible} onClose={userInfoSetupModalCancel} onSuccess={userInfoSetupModalSuccess} />
 				</Col>
 			</Row>
-		</div>
+		</EasyContainer>
 	)
 }
 
