@@ -1,10 +1,23 @@
 import React from 'react';
-import { Form, FormItemProps, FormProps, Input, InputProps, SelectProps, Select, TreeSelect, TreeProps, TreeSelectProps } from "antd"
+import {
+    Form,
+    FormItemProps,
+    FormProps,
+    Input,
+    InputProps,
+    SelectProps,
+    Select,
+    TreeSelect,
+    TreeProps,
+    TreeSelectProps,
+    SwitchProps, Switch
+} from "antd"
+import EasyIconSelect from "@/components/EasyIconSelect/EasyIconSelect";
 
 export type FormRenderOpt = {
     formItem: FormItemProps
-    type: 'select' | 'input' | 'treeSelect'
-    compProp: InputProps & SelectProps & TreeSelectProps
+    type: 'select' | 'input' | 'treeSelect' | 'iconSelect' | 'switch'
+    compProp: InputProps & SelectProps & TreeSelectProps & SwitchProps
 }
 
 type EasyFormRenderProps = {
@@ -17,8 +30,10 @@ const EasyFormRender: React.FC<EasyFormRenderProps> = (props) => {
     const formItemInput = (configItem: FormRenderOpt) => {
         const compItem: { [index: string]: any } = {
             input: <Input {...configItem.compProp} />,
-            select: <Select {...configItem.compProp} />,
-            treeSelect: <TreeSelect {...configItem.compProp} />
+            select: <Select {...configItem.compProp}/>,
+            treeSelect: <TreeSelect {...configItem.compProp} />,
+            switch:<Switch {...configItem.compProp}/>,
+            iconSelect:<EasyIconSelect {...configItem.compProp}></EasyIconSelect>
         }
         return configItem?.type && compItem[configItem.type]
     }

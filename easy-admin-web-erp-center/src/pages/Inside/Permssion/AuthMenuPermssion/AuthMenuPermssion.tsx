@@ -1,12 +1,17 @@
 import React, { useEffect, useState } from 'react'
 import { MenusItemInfo } from '@/services/Inside/menu/model/menuResponse'
-import { Table, Tag } from "antd"
+import { Table, Tag,Modal } from "antd"
 import { ColumnsType } from 'antd/lib/table'
 import EasyContainer from "@/components/EasyContainer/EasyContainer"
 import services from '@/services/services'
 import EasyButtonGroup, { ButtonGroupItemProps } from "@/components/EasyButtonGroup/EasyButtonGroup"
 import { CheckCircleOutlined, CloseCircleOutlined, DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons'
 import AuthMenuModifyModal from './components/AuthMenuModifyModal/AuthMenuModifyModal'
+import {delMenu, putMenu, updateMenuInfo} from "@/services/Inside/menu/menu";
+import {PutMenuInfo} from "@/services/Inside/menu/model/menuRequest";
+import {openMessage} from "@/helps/antd/antd";
+import {rowButtonGroupConfig} from "@/pages/Inside/Permssion/AuthMenuPermssion/config/render";
+import {toolButtonGroupConfig} from "@/pages/Inside/Permssion/RolePermssion/config/render";
 
 const MenuTypeEnum: { [index: number]: { name: string, color: string } } = {
 	0: { name: '模块', color: "blue" },
@@ -25,58 +30,59 @@ const AuthMenuPermssion: React.FC<AuthMenuPermssionProps> = (props) => {
 	}, [])
 
 	const getAuthMenus = async () => {
-		const { data } = await services.getAuthMenus()
+		const { data } = await services.getMenus()
 		setData([...data])
 	}
 
 	const [authMenuTableLoading, setAuthMenuTableLoading] = useState<boolean>(false)
 
-	const rowButtonGroupConfig: ButtonGroupItemProps[] = [
-		{
-			type: "link",
-			size: "small",
-			text: "添加子菜单",
-			icon: <PlusOutlined />,
-			key: "edit"
-		},
-		{
-			type: "link",
-			size: "small",
-			text: "编辑",
-			key: "edit",
-			icon: <EditOutlined />
-		},
-		{
-			type: "link",
-			size: "small",
-			text: "删除",
-			key: "edit",
-			icon: <DeleteOutlined />
-		},
-	]
+	const [modal, contextHolder] = Modal.useModal();
 
-	const rowButtonHandler = (item: ButtonGroupItemProps) => {
-		console.log(item)
+	const rowButtonHandler = (item: ButtonGroupItemProps,record:MenusItemInfo) => {
+		if(item.key === "delete"){
+			modal.confirm({
+				title:"你确定要这样做吗？",
+				content:"这样操作你的数据将会丢失",
+				onOk:() => {
+					delMenu(String(record.id)).then(async () => {
+						getAuthMenus()
+						openMessage({type:"success",content:"删除成功！"})
+					})
+				}
+			})
+		}else if(item.key === "addChild"){
+			setRowParentId(Number(record.id))
+			setAuthMenuModifyModalTitle("添加子菜单")
+			setAuthMenuModifyModalVisible(true)
+		}else if(item.key === "edit"){
+			setAuthMenuModifyModalTitle("编辑菜单")
+			setAuthMenuModifyModalMenuId(String(record.id))
+			setAuthMenuModifyModalVisible(true)
+		}
 	}
 
 	const columns: ColumnsType<MenusItemInfo> = [
 		{
 			title: "菜单Id",
 			dataIndex: "id",
+			key:"id"
 		},
 		{
 			title: "父菜单id",
 			dataIndex: "parentId",
+			key:"parentId",
 			align: "center",
 		},
 		{
 			title: "菜单名称",
 			dataIndex: "name",
+			key:"name",
 			align: "center",
 		},
 		{
 			title: "菜单路由",
 			dataIndex: "router",
+			key:"router",
 			align: "center",
 		},
 		{
@@ -91,11 +97,13 @@ const AuthMenuPermssion: React.FC<AuthMenuPermssionProps> = (props) => {
 		{
 			title: "图标",
 			dataIndex: "icon",
+			key:"icon",
 			align: "center",
 		},
 		{
 			title: "排序",
 			dataIndex: 'orderNum',
+			key:"orderNum",
 			align: "center",
 		},
 		{
@@ -105,7 +113,7 @@ const AuthMenuPermssion: React.FC<AuthMenuPermssionProps> = (props) => {
 			align: "center",
 			render: (isShow) => (
 				<Tag icon={isShow ? <CheckCircleOutlined /> : <CloseCircleOutlined />} color={isShow ? 'success' : 'error'} >
-					启用
+					{isShow ? '启用':'禁用'}
 				</Tag >
 			)
 		},
@@ -114,20 +122,14 @@ const AuthMenuPermssion: React.FC<AuthMenuPermssionProps> = (props) => {
 			dataIndex: "modify",
 			align: "center",
 			width: "350px",
-			render: () => (
-				<EasyButtonGroup opt={rowButtonGroupConfig} onClick={rowButtonHandler} layoutConfig={{ gutter: 16, justify: 'center' }} />
+			render: (_,record) => (
+				<EasyButtonGroup opt={rowButtonGroupConfig} onClick={(val) => rowButtonHandler(val,record)} layoutConfig={{ gutter: 16, justify: 'center' }} />
 			)
 		}
 	]
 
-	const toolButtonGroupConfig: ButtonGroupItemProps[] = [
-		{
-			type: "primary",
-			text: "添加根菜单",
-			icon: <PlusOutlined />,
-			key: "addRoot"
-		}
-	]
+	// 待添加的列表父级id
+	const [rowParentId, setRowParentId] = useState<number>();
 
 	const toolHandler = (item: ButtonGroupItemProps) => {
 		if (item.key === "addRoot") {
@@ -140,16 +142,36 @@ const AuthMenuPermssion: React.FC<AuthMenuPermssionProps> = (props) => {
 		setAuthMenuModifyModalVisible(false)
 	}
 
+	const authMenuModalClose = () => {
+		setAuthMenuModifyModalMenuId(void 0)
+		setRowParentId(void 0);
+	}
+
 	const [authMenuModifyModalVisible, setAuthMenuModifyModalVisible] = useState<boolean>(false)
 
 	const [authMenuModifyModalTitle, setAuthMenuModifyModalTitle] = useState<string>()
+
+	const [authMenuModifyModalMenuId, setAuthMenuModifyModalMenuId] = useState<string>();
+
+	const authMenuModifyConfirm = (form:PutMenuInfo) => {
+		const requestMethod = authMenuModifyModalMenuId ? updateMenuInfo : putMenu
+		requestMethod({menuPid:rowParentId,...form},String(authMenuModifyModalMenuId))
+			.then(() => {
+				openMessage({type:"success",content:"新增系统菜单成功！"})
+			})
+			.finally(() => {
+				setAuthMenuModifyModalVisible(false)
+				getAuthMenus()
+			})
+	}
 
 	return (
 		<EasyContainer>
 			<>
 				<EasyButtonGroup opt={toolButtonGroupConfig} onClick={toolHandler} layoutConfig={{ gutter: 16, }} />
-				<Table size="middle" loading={authMenuTableLoading} columns={columns} dataSource={data} />
-				<AuthMenuModifyModal visible={authMenuModifyModalVisible} title={authMenuModifyModalTitle} onCancel={authMenuModifyModalCancel} />
+				<Table size="middle" rowKey={record => record.id} loading={authMenuTableLoading} columns={columns} dataSource={data} />
+				<AuthMenuModifyModal  width={700} visible={authMenuModifyModalVisible} menuId={authMenuModifyModalMenuId} title={authMenuModifyModalTitle} afterClose={authMenuModalClose} onCancel={authMenuModifyModalCancel} onConfirm={authMenuModifyConfirm}/>
+				{contextHolder}
 			</>
 		</EasyContainer>
 	)
