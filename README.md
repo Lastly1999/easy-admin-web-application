@@ -8,6 +8,8 @@
 ###### 基础 ERP 管理中心 微应用基座 ( [React](超链接地址 "超链接title") + [Vite3](超链接地址 "超链接title") + [TypeScript](超链接地址 "超链接title") + [Redux-Tookit](超链接地址 "超链接title") [Redux-Router V6](超链接地址 "超链接title") + [Antd](超链接地址 "超链接title")) (开发中... RBAC基础功能权限验证实现中)
 ###### 管理中心 business业务中心 微应用 ( [React](超链接地址 "超链接title") + [Vite3](超链接地址 "超链接title") + [TypeScript](超链接地址 "超链接title") + [Redux-Tookit](超链接地址 "超链接title") [Redux-Router V6](超链接地址 "超链接title") + [Antd](超链接地址 "超链接title"))（目前暂未强制实现，后期可根据具体使用情况指定技术栈）
 
+###### 移动端管理中心 （基于React-Native + TypeScript）(开发中....)
+
 ### 快速速用:zap: 
 ###### 到各个项目目录下 进行安装 后期会加入npm-run-all package管理
 ##### 安装依赖
