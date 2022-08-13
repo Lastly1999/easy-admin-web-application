@@ -18,13 +18,15 @@ const useLogin = () => {
 	})
 
 	const login = async (values: ILoginForm) => {
-		const { data: { token: { accessToken, refreshToken } } } = await loginAction(values)
+		const { data: { token: { accessToken, refreshToken },userInfo } } = await loginAction(values)
+		console.log(userInfo)
 		localStorage.setItem("SIGN-IN-CACHE", JSON.stringify({
 			...loginForm.value
 		}))
 		QiankunMicroAppsActions.actions.setGlobalState({
 			accessToken,
-			refreshToken
+			refreshToken,
+			userInfo
 		})
 		QiankunMicroAppsActions.actions.microAppRouter.push("/admin")
 	}

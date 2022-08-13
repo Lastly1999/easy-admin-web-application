@@ -7,3 +7,12 @@ export type GetRolesItem = {
     updatedAt: string
     userId: string
 }
+
+export type GetRoleInfo = {
+    name: string;
+    roleRemark: string;
+    roleDepIds: number[];
+    roleMenuIds: number[];
+    roleName: string;
+    userId: string;
+}

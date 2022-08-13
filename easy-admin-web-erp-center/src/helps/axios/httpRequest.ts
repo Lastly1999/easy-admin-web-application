@@ -35,7 +35,7 @@ const httpRequest = new HttpInterceptor({
             return response
         },
         responseInterceptorsCatch: eof => {
-            if ([401, 500].includes(eof.response.status)) {
+            if ([401].includes(eof.response.status)) {
                 jwtInvalidHandler()
             } else {
                 handelHttpError(eof.response.data.message)
@@ -52,7 +52,7 @@ const jwtInvalidHandler = () => {
 }
 
 const handelApiError = <T>(data: IJsonResult<T>) => {
-    return openNotification({ type: "error", message: "温馨提示", description: data.msg })
+    return openNotification({ type: "error", message: "温馨提示", description: data.message })
 }
 
 const handelHttpError = (description: string) => {

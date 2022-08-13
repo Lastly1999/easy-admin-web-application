@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import EasyContainer from "@/components/EasyContainer/EasyContainer";
 import useCustomTable from "@/hooks/useCustomTable";
 import services from "@/services/services";
@@ -8,15 +8,27 @@ import {GetRolesItem} from "@/services/Inside/role/model/roleResponse";
 import {Pager} from "@/services/model/commonRequest";
 import EasyButtonGroup, { ButtonGroupItemProps } from "@/components/EasyButtonGroup/EasyButtonGroup";
 import {columnsButtoGroupConfig,toolButtonGroupConfig} from "@/pages/Inside/Permssion/RolePermssion/config/render";
+import RoleModifyModal from "@/pages/Inside/Permssion/RolePermssion/components/RoleModifyModal/RoleModifyModal";
+import {PutRoleForm} from "@/services/Inside/role/model/roleRequest";
+import {openMessage} from "@/helps/antd/antd";
+import {useSelector} from "react-redux";
+import {RootState} from "@/app/store";
+import {AuthState} from "@/festures/auth/authSlice";
 
 type Props = {}
 
 const RolePermssion: React.FC<Props> = (props) => {
 
-	const {dataSource,tableLoading} = useCustomTable<GetRolesItem,Pager>({initailParams:{pageSize:10,pageNo:1},api:services.getRoles})
+	const {dataSource,tableLoading,serachData} = useCustomTable<GetRolesItem,Pager>({initailParams:{pageSize:10,pageNo:1},api:services.getRoles})
 
-	const columnsButtoGroupHander = (item:ButtonGroupItemProps) => {
+	const authStore = useSelector<RootState,AuthState>((state) => state.auth)
 
+	const columnsButtoGroupHander = (item:ButtonGroupItemProps,record:GetRolesItem) => {
+		if(item.key === "edit"){
+			setRoleModifyTitle("编辑角色信息")
+			setRoleModifyRoleId(record.id)
+			setRoleModifyVisible(true)
+		}
 	}
 
 	const columns:ColumnsType<GetRolesItem> = [
@@ -51,14 +63,41 @@ const RolePermssion: React.FC<Props> = (props) => {
 			dataIndex:"modify",
 			align:"center",
 			width:"200px",
-			render:() => (
-				<EasyButtonGroup opt={columnsButtoGroupConfig} onClick={columnsButtoGroupHander} layoutConfig={{ gutter: 16,justify: 'center' }} />
+			render:(modify,record,index) => (
+				<EasyButtonGroup opt={columnsButtoGroupConfig} onClick={(item) => columnsButtoGroupHander(item,record)} layoutConfig={{ gutter: 16,justify: 'center' }} />
 			)
 		}
 	]
 
 	const toolHandler = (item:ButtonGroupItemProps) => {
+		if(item.key === "create"){
+			setRoleModifyTitle("添加角色")
+			setRoleModifyVisible(true)
+		}
+	}
 
+	const [roleModifyVisible, setRoleModifyVisible] = useState<boolean>(false);
+
+	const [roleModifyTitle, setRoleModifyTitle] = useState<string>();
+
+	const roleModifyCancel = () => {
+		setRoleModifyVisible(false)
+	}
+
+	const roleModifyConfirm = async (values:PutRoleForm) => {
+		const params = {...values,userId:authStore.userInfo?.id}
+		services.putRole(params).then(() => {
+			openMessage({type:"success",content:"新增角色成功！"})
+		}).finally(() => {
+			setRoleModifyVisible(false)
+			serachData({pageSize:10,pageNo:1})
+		})
+	}
+
+	const [roleModifyRoleId, setRoleModifyRoleId] = useState<number>();
+
+	const roleModifyModalClose = () => {
+		setRoleModifyRoleId(void 0)
 	}
 
 	return (
@@ -66,6 +105,7 @@ const RolePermssion: React.FC<Props> = (props) => {
 			<>
 				<EasyButtonGroup opt={toolButtonGroupConfig} onClick={toolHandler} layoutConfig={{ gutter: 16, }} />
 				<Table size='middle' columns={columns} dataSource={dataSource} loading={tableLoading}/>
+				<RoleModifyModal width={800} afterClose={roleModifyModalClose} roleId={roleModifyRoleId} title={roleModifyTitle} visible={roleModifyVisible} onCancel={roleModifyCancel} onConfirm={roleModifyConfirm}/>
 			</>
 		</EasyContainer>
 	)

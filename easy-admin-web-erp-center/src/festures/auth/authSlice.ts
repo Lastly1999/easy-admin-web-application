@@ -12,6 +12,7 @@ export interface AuthState {
 export type UserInfo = {
     userName: string
     roleId: number
+    id:number
 }
 
 

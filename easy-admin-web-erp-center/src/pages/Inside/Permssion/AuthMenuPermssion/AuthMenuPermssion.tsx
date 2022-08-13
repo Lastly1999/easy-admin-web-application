@@ -10,8 +10,7 @@ import AuthMenuModifyModal from './components/AuthMenuModifyModal/AuthMenuModify
 import {delMenu, putMenu, updateMenuInfo} from "@/services/Inside/menu/menu";
 import {PutMenuInfo} from "@/services/Inside/menu/model/menuRequest";
 import {openMessage} from "@/helps/antd/antd";
-import {rowButtonGroupConfig} from "@/pages/Inside/Permssion/AuthMenuPermssion/config/render";
-import {toolButtonGroupConfig} from "@/pages/Inside/Permssion/RolePermssion/config/render";
+import {rowButtonGroupConfig,toolButtonGroupConfig} from "@/pages/Inside/Permssion/AuthMenuPermssion/config/render";
 
 const MenuTypeEnum: { [index: number]: { name: string, color: string } } = {
 	0: { name: '模块', color: "blue" },

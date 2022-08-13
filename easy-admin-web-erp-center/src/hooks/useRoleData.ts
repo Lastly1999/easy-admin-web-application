@@ -13,7 +13,7 @@ const useRoleData = (init?: boolean) => {
 	}, [init])
 
 	const getRoles = async () => {
-		const { data } = await services.getRoles()
+		const { data } = await services.getRoles({pageSize:9999999,pageNo:1})
 		setRoles([...data])
 	}
 
