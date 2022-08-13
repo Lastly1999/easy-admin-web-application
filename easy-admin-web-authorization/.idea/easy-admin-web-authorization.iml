@@ -10,5 +10,6 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="easy-admin-web-erp-center" />
     <orderEntry type="module" module-name="easy-admin-web-business" />
+    <orderEntry type="module" module-name="EasyAdminAsApp" />
   </component>
 </module>
